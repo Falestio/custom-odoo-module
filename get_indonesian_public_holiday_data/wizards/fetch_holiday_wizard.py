@@ -120,11 +120,8 @@ class FetchHolidayWizard(models.TransientModel):
                 'type': 'success',
                 'sticky': False,
                 'next': {
-                    'type': 'ir.actions.act_window_close',
-                    'followed_by': {
-                        'type': 'ir.actions.client',
-                        'tag': 'reload',
-                    }
+                    'type': 'ir.actions.client',
+                    'tag': 'reload',
                 }
             }
         }
