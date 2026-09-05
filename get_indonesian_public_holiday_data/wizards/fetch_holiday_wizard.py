@@ -1,6 +1,5 @@
 import requests
-import re
-from datetime import datetime, timedelta
+from datetime import datetime
 from collections import defaultdict
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
@@ -20,52 +19,48 @@ class FetchHolidayWizard(models.TransientModel):
     
     def fetch_holidays(self):
         self.ensure_one()
-        
-        base_url = "https://dayoffapi.vercel.app/api"
-        params = {}
-        
-        if self.year:
-            params['year'] = self.year
-        
-        if self.month:
-            params['month'] = self.month
-            
+
+        url = f"https://api.kemendesa.link/libur-nasional/api/holidays/{self.year}.json"
+
         try:
-            query_string = '?' + '&'.join([f"{k}={v}" for k, v in params.items()]) if params else ''
-            url = base_url + query_string
-            response = requests.get(url)
+            response = requests.get(url, timeout=15)
             response.raise_for_status()
-            holidays = response.json()
+            payload = response.json()
         except requests.exceptions.RequestException as e:
             raise UserError(_("Gagal mengambil data libur: %s") % str(e))
-            
+
+        holidays = payload.get('data', [])
+
         if not holidays:
             raise UserError(_("Tidak ada data libur yang ditemukan untuk periode yang dipilih."))
-            
+
+        if self.month:
+            holidays = [
+                holiday for holiday in holidays
+                if datetime.strptime(holiday['date'], '%Y-%m-%d').month == int(self.month)
+            ]
+
+        if not self.include_cuti_bersama:
+            holidays = [holiday for holiday in holidays if not holiday.get('is_cuti_bersama', False)]
+
+        if not holidays:
+            raise UserError(_("Tidak ada data libur yang ditemukan untuk periode yang dipilih."))
+
         calendar_leaves_obj = self.env['resource.calendar.leaves']
         created_count = 0
         skipped_count = 0
-        
-        if not self.include_cuti_bersama:
-            holidays = [holiday for holiday in holidays if not holiday.get('is_cuti', False)]
-            
+
         grouped_by_keterangan = defaultdict(list)
-        
+
         for holiday in holidays:
-            date_str = holiday['tanggal']
-            if re.match(r'\d{4}-\d{1,2}-\d{1,2}', date_str):
-                date_parts = date_str.split('-')
-                date_str = f"{date_parts[0]}-{int(date_parts[1]):02d}-{int(date_parts[2]):02d}"
-            
-            date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
-            keterangan = holiday['keterangan']
-            
+            date_obj = datetime.strptime(holiday['date'], '%Y-%m-%d').date()
+            keterangan = holiday['name']
+
             grouped_by_keterangan[keterangan].append({
                 'date': date_obj,
-                'date_str': date_str,
-                'is_cuti': holiday.get('is_cuti', False)
+                'is_cuti_bersama': holiday.get('is_cuti_bersama', False)
             })
-            
+
         year = self.year
         first_day = datetime(year, 1, 1) if not self.month else datetime(year, int(self.month), 1)
         last_day = datetime(year, 12, 31, 23, 59, 59) if not self.month else datetime(

@@ -1,6 +1,6 @@
 {
     'name': 'Indonesian Public Holiday Data',
-    'version': '1.0',
+    'version': '1.1',
     'category': 'Human Resources',
     'summary': 'Fetch Indonesian public holiday data',
     'license': 'LGPL-3',
@@ -8,7 +8,7 @@
         This module fetches Indonesian public holiday data from an API.
     """,
     'author': 'Falestio Hanif Al Hakim',
-    'website': 'https://falestio.my.id',
+    'website': 'https://falestio.my.id/about',
 
     'depends': ['web', 'hr_holidays'],
     'data': [
