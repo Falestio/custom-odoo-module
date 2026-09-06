@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Search By Date Range',
+    'name': 'Filter By Date Range',
     'version': '18.0.1.0',
     'category': 'web',
     'summary': 'Search by date range in List view',
@@ -12,13 +12,13 @@ This module adds date range and numeric range search filters directly in list vi
     'depends': ['web'],
     'assets': {
         'web.assets_backend': [
-            'search_by_date_range/static/src/components/search_by_date_range.css',
-            'search_by_date_range/static/src/components/search_by_date_range.js',
-            'search_by_date_range/static/src/components/search_by_date_range.xml',
+            'filter_by_date_range/static/src/components/search_by_date_range.css',
+            'filter_by_date_range/static/src/components/search_by_date_range.js',
+            'filter_by_date_range/static/src/components/search_by_date_range.xml',
         ],
         'web.assets_backend_lazy': [
-            'search_by_date_range/static/src/components/search_by_date_range_pivot.js',
-            'search_by_date_range/static/src/components/search_by_date_range_pivot.xml',
+            'filter_by_date_range/static/src/components/search_by_date_range_pivot.js',
+            'filter_by_date_range/static/src/components/search_by_date_range_pivot.xml',
         ],
     },
     'installable': True,

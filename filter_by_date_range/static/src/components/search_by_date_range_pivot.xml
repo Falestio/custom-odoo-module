@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <!-- Extend PivotView to include the filter before buttons -->
-    <t t-name="search_by_date_range.PivotView" t-inherit="web.PivotView" t-inherit-mode="extension">
+    <t t-name="filter_by_date_range.PivotView" t-inherit="web.PivotView" t-inherit-mode="extension">
         <xpath expr="//Layout" position="inside">
             <t t-set-slot="before-content">
                 <t t-if="dateRangeState and (dateRangeState.showDateFilter or dateRangeState.showNumericFilter)">
