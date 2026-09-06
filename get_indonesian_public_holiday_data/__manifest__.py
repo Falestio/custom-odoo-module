@@ -1,6 +1,6 @@
 {
     'name': 'Indonesian Public Holiday Data',
-    'version': '1.1',
+    'version': '1.2',
     'category': 'Human Resources',
     'summary': 'Fetch Indonesian public holiday data',
     'license': 'LGPL-3',
