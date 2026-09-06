@@ -10,6 +10,9 @@ Export Current List View to Excel
     'author': 'Falestio Hanif Al Hakim',
     'website': 'https://falestio.my.id/about',
     'depends': ['web'],
+    'images': [
+        'static/description/banner.png',
+    ],
     'assets': {
         'web.assets_backend': [
             'export_current_list/static/src/components/export_current_list.js',

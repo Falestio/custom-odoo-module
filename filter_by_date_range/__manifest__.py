@@ -10,6 +10,9 @@ This module adds date range and numeric range search filters directly in list vi
     'author': 'Falestio Hanif Al Hakim',
     'website': 'https://falestio.my.id/about',
     'depends': ['web'],
+    'images': [
+        'static/description/banner.png',
+    ],
     'assets': {
         'web.assets_backend': [
             'filter_by_date_range/static/src/components/search_by_date_range.css',
